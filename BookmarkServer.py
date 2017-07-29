@@ -42,9 +42,14 @@
 # After writing each step, restart the server and run test.py to test it.
 
 import http.server
+import threading
+from sockerserver import ThreadingMixIn
 import os
 import requests
 from urllib.parse import unquote, parse_qs
+
+class ThreadHTTPServer(ThreadingMixIn, http.server.HTTPServer):
+    "This is an HTTPServer that supports thread-based concurrency."
 
 memory = {}
 
@@ -155,5 +160,5 @@ class Shortener(http.server.BaseHTTPRequestHandler):
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8000)) # Use PORT if available.
     server_address = ('', port)
-    httpd = http.server.HTTPServer(server_address, Shortener)
+    httpd = ThreadHTTPServer(server_address, Shortener)
     httpd.serve_forever()
