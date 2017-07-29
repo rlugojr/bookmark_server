@@ -42,6 +42,7 @@
 # After writing each step, restart the server and run test.py to test it.
 
 import http.server
+import os
 import requests
 from urllib.parse import unquote, parse_qs
 
@@ -152,6 +153,7 @@ class Shortener(http.server.BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    server_address = ('', 8000)
+    port = int(os.environ.get('port', 8000)) # Use PORT if available.
+    server_address = ('', port)
     httpd = http.server.HTTPServer(server_address, Shortener)
     httpd.serve_forever()
