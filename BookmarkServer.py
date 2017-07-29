@@ -43,7 +43,7 @@
 
 import http.server
 import threading
-from sockerserver import ThreadingMixIn
+from socketserver import ThreadingMixIn
 import os
 import requests
 from urllib.parse import unquote, parse_qs
